@@ -1,8 +1,14 @@
 name: testing
-on: [push]
+on:
+    - push
+    - workflow_dispatch
 jobs:
     test:
         runs-on: ubuntu-latest
         steps:
-            - name: "testing"
-              run: echo 'hi uday here'
+            - name: "checkout"
+              run: |
+                echo "Checking out the repository..."
+                echo "${{ github.repository }}"
+                git clone "https://github.com/${{ github.repository }}.git"
+
