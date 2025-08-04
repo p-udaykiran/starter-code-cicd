@@ -1,14 +1,25 @@
 name: testing
 on:
-    - push
-    - workflow_dispatch
-jobs:
-    test:
-        runs-on: ubuntu-latest
-        steps:
-            - name: "checkout"
-              run: |
-                echo "Checking out the repository..."
-                echo "${{ github.repository }}"
-                git clone "https://github.com/${{ github.repository }}.git"
+  push:
+  workflow_dispatch:
 
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v2
+
+      - name: "Setup Node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: "Check Node.js version"
+        run: node -v
+
+      - name: "Install dependencies"
+        run: npm ci
+
+      - name: "Run tests"
+        run: npm run test
